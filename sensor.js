@@ -2,7 +2,7 @@ class Sensor{
     constructor(car){
         this.car = car;
         this.rayCount = 5;
-        this.rayLength = 150;
+        this.rayLength = 100;
         this.raySpread = Math.PI /2;
         this.rays = [];
         this.readings = [];
@@ -58,16 +58,30 @@ class Sensor{
     draw(ctx){
 
         for(let i=0; i<this.rayCount; i++){
+            // this is the ending offset of the ray
             let end = this.rays[i][1];
+            
+            // if there are readings(i.e intersections happens) then assign readings to end 
             if (this.readings[i]){
-                 end = this.reading[i];
+                 end = this.readings[i];
             }
+
+            //draw a ray from start till end 
             ctx.beginPath();
             ctx.lineWidth = 3;
             ctx.strokeStyle = "yellow";
             ctx.moveTo(this.rays[i][0].x, this.rays[i][0].y);
-            ctx.lineTo(this.rays[i][1].x, this.rays[i][1].y);
+            ctx.lineTo(end.x, end.y);
             ctx.stroke();            
+            
+            // if intercection happens then change the color of the ray to the point till the intersection happend
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "black";
+            ctx.moveTo(this.rays[i][1].x, this.rays[i][1].y);
+            ctx.lineTo(end.x, end.y);
+            ctx.stroke();
+
         }
     }
 
